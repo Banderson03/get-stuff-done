@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landing from './pages/Landing';
-import Signup from './pages/Signup';
-import Signin from './pages/Signin';
-import Home from './pages/Home';
+import Landing from './pages/Landing/Landing';
+import Signup from './pages/Signup/Signup';
+import Signin from './pages/Signin/Signin';
+import Home from './pages/Home/Home';
 import ProtectedRoute from "../src/components/ProtectedRoute";
+import './App.css';
 
 function App() {
   

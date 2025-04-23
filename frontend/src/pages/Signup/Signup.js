@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import "./Signup.css";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSignup}>
         <div>
@@ -44,7 +45,7 @@ function Signup() {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Sign Up</button>
       </form>
-      <p>
+      <p className="small">
         Already Have An Account? <Link to="/signin">Sign In</Link>
       </p>
     </div>

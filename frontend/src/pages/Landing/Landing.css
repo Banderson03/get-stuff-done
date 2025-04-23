@@ -1,0 +1,87 @@
+/* Landing.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background: linear-gradient(135deg, #D2E5F6 0%, #00aaff 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* full-screen flex centering + gradient bg */
+.landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    text-align: center;
+}
+
+/* Heading style */
+.landing h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 2. Auth pages container */
+.landing-container {
+    max-width: 500px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 40px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 3. Headings */
+.landing-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+/* Wrap buttons so they sit side-by-side */
+.landing-container .landing__actions {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+
+}
+
+/* Base button */
+.landing-container .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Primary = white bg, blue text */
+.landing-container .btn {
+    background: #007bff;
+    color: #fff;
+}
+.landing-container .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Button focus outline */
+.landing-container .btn:focus {
+    outline: 2px solid rgba(255,255,255,0.6);
+    outline-offset: 2px;
+}

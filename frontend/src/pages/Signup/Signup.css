@@ -1,0 +1,106 @@
+/* Signup.css */
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background: linear-gradient(135deg, #D2E5F6 0%, #00aaff 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+  /* 2. Auth pages container */
+.auth-container {
+    max-width: 400px;
+    min-width: 400px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 40px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 3. Headings */
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #007bff;
+    font-size: 1.8rem;
+}
+
+/* 4. Form groups */
+.auth-container form > div {
+    margin-bottom: 20px;
+}
+.auth-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.auth-container input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color .2s ease;
+}
+.auth-container input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* 5. Error message */
+.auth-container p.error {
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* 6. Primary button */
+.auth-container button,
+.auth-container .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .3s ease;
+}
+.auth-container button:hover,
+.auth-container .btn:hover {
+    background-color: #0056b3;
+}
+
+/* 7. Reset-password button (secondary) */
+.auth-container button.reset {
+    margin-top: 8px;
+    background-color: #6c757d;
+}
+.auth-container button.reset:hover {
+    background-color: #5a6268;
+}
+
+/* 8. Signup / Signin link */
+.auth-container p.small {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+.auth-container p.small a {
+    color: #007bff;
+    text-decoration: none;
+}
+.auth-container p.small a:hover {
+    text-decoration: underline;
+}
