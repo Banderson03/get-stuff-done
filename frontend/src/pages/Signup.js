@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -21,7 +21,7 @@ function Signup() {
 
   return (
     <div>
-      <h1>Signup</h1>
+      <h1>Sign Up</h1>
       <form onSubmit={handleSignup}>
         <div>
           <label>Email:</label>
@@ -44,6 +44,9 @@ function Signup() {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Sign Up</button>
       </form>
+      <p>
+        Already Have An Account? <Link to="/signin">Sign In</Link>
+      </p>
     </div>
   );
 }
