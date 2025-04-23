@@ -1,36 +1,22 @@
-import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from './pages/Landing';
+import Signup from './pages/Signup';
+import Signin from './pages/Signin';
+import Home from './pages/Home';
 
-class App extends Component {
-
-    state = {};
-
-    componentDidMount() {
-        setInterval(this.hello, 250);
-    }
-
-    hello = () => {
-        fetch('/api/hello')
-            .then(response => response.text())
-            .then(message => {
-                this.setState({message: message});
-            });
-    };
-
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">{this.state.message}</h1>
-                </header>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </p>
-            </div>
-        );
-    }
+function App() {
+  
+  return (
+    <BrowserRouter data-testid="browser-router">
+      <Routes>
+        <Route index element={<Landing />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/home" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
