@@ -48,9 +48,10 @@ const styles = {
     height: '100%',
   },
   scrollableArea: {
+    marginTop: '10px',
     maxHeight: '800px',
     overflowY: 'auto',
-    padding: '10px',
+    padding: '8px',
     border: '1px solid #ddd',
     borderRadius: '4px',
     backgroundColor: '#fff',

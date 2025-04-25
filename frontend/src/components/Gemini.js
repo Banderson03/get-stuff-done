@@ -31,24 +31,37 @@ function Gemini() {
     };
 
     return (
-        <div>
+        <div className="gemini-container"> 
             <h2>Gemini API Demo</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="gemini-form">
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask Gemini something..."
                     required
+                    aria-label="Ask Gemini something"
                 />
-                <button type="submit" disabled={loading}>
-                    Send
+                <button type="submit" disabled={loading || !input.trim()}>
+                    {loading ? "Sending..." : "Send"}
                 </button>
             </form>
 
-            {loading && <p>Loading...</p>} {/* Show loading state */}
-            {response && <p>Response: {response}</p>} {/* Display response */}
-            {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error */}
+            {loading && <p className="gemini-status">Loading...</p>}
+            {error && <p className="gemini-error" style={{ color: "red" }}>Error: {error}</p>}
+            {(!loading && (response || !error)) && (
+                 <div className="gemini-output-container">
+                    <label htmlFor="geminiOutputDisplay">Gemini Response:</label>
+                    <textarea
+                        id="geminiOutputDisplay"
+                        className="gemini-output-box"
+                        value={response}
+                        readOnly
+                        placeholder="Gemini response will appear here..."
+                        rows={10}
+                    />
+                </div>
+            )}
         </div>
     );
 }

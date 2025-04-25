@@ -52,16 +52,18 @@ function Home() {
 
             {/* Box 2: Main Content (Calendar, etc.) */}
             <div className="main-content-box">
-                <h1>Git Started With Git Stuff Done</h1>
+                <div className="main-content-header">
+                    <h1>Git Started With Git Stuff Done</h1>
+                    <button onClick={handleSignOut} className="sign-out-button">Sign Out</button>
+                </div>
                 <GoogleCalendarEmbed
                     calendarId="2959515c3df1dd2d8dfb6ef572e6d73ce4edcafed0e7a65a61ba5e1bc5a2fce9@group.calendar.google.com@group.calendar.google.com"
                     timezone="America/Chicago"
                 />
                 <GemeniComponent />
-                <button onClick={handleSignOut}>Sign Out</button>
             </div>
 
-        </div> // End of page-layout
+        </div>
     )
 }
 
