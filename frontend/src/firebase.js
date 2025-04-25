@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getDatabase } from 'firebase/database';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
 
 
@@ -27,3 +28,4 @@ const analytics = getAnalytics(app);
 
 // Initialize Firebase Authentication
 export const auth = getAuth(app);
+export const db = getDatabase(app);

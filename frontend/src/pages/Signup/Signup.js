@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { set, ref } from "firebase/database";
 import "./Signup.css";
 
 function Signup() {
@@ -13,7 +14,12 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await set(ref(db, `users/${user.uid}`), {
+        tasks: {}
+      });
       navigate("/home");
     } catch (err) {
       setError(err.message);
