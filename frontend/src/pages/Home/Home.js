@@ -4,6 +4,7 @@ import GemeniComponent from "../../components/Gemini";
 import GoogleCalendarEmbed from "../../components/GoogleCalendarEmbed";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import TaskList from "../../components/TaskList";
 import "./Home.css";
 
 
@@ -41,24 +42,26 @@ function Home() {
         await signOut(auth);
         navigate("/");
     };
-
+    
     return (
-        <div className="home-container">
-            <button onClick={handleSignOut} style={{ float: "right" }}>Sign Out</button>
-            <h1>Git Started With Git Stuff Done</h1>
-            <p>{message}</p>
-            <GemeniComponent />
-            <div className="calender">
-                <h1>Google Calendar (Central Time)</h1>
-                <GoogleCalendarEmbed
-                    calendarId="2959515c3df1dd2d8dfb6ef572e6d73ce4edcafed0e7a65a61ba5e1bc5a2fce9@group.calendar.google.com@group.calendar.google.com" // replace with your public calendar ID
-                    timezone="America/Chicago"
-                    width="1000"
-                    height="800"
-                />
+        <div className="page-layout">
+            {/* Box 1: Task List */}
+            <div className="task-list-box">
+                <TaskList />
             </div>
-        </div>
-        
+
+            {/* Box 2: Main Content (Calendar, etc.) */}
+            <div className="main-content-box">
+                <h1>Git Started With Git Stuff Done</h1>
+                <GoogleCalendarEmbed
+                    calendarId="2959515c3df1dd2d8dfb6ef572e6d73ce4edcafed0e7a65a61ba5e1bc5a2fce9@group.calendar.google.com@group.calendar.google.com"
+                    timezone="America/Chicago"
+                />
+                <GemeniComponent />
+                <button onClick={handleSignOut}>Sign Out</button>
+            </div>
+
+        </div> // End of page-layout
     )
 }
 

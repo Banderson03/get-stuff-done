@@ -1,21 +1,67 @@
 /* Home.css */
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: linear-gradient(135deg, #D2E5F6 0%, #00aaff 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
     color: #333;
+    margin: 0;
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-.home-container {
-    max-width: 100%;
-    min-width: 100%;
-    margin: 80px auto;
+/* New outer layout container */
+.page-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Styling for the Task List Box */
+.task-list-box {
     background: #fff;
-    padding: 40px 32px;
+    padding: 20px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 450px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styling for the Main Content Box */
+.main-content-box {
+    /* Visual Styles */
+    background: #fff;
+    padding: 20px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    flex: 1; /* Grow to fill available space */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between H1, Calendar, Gemini, Button */
+}
+
+
+/* --- Styles for elements INSIDE main-content-box --- */
+
+.main-content-box h1 {
+    margin-top: 0;
+    margin-bottom: 0; /* Adjust spacing if needed */
+}
+
+.main-content-box GoogleCalendarEmbed,
+.main-content-box iframe {
+     border: none;
+}
+
+.main-content-box button {
+    align-self: flex-end; /* Position button to the right */
+    margin-top: auto; /* Push button to bottom if extra space */
+    margin-left: auto; /* Ensure it stays right */
 }
