@@ -9,7 +9,12 @@ const ai = new GoogleGenAI({ apiKey: process.env.REACT_APP_GEMINI_API_KEY });
  * Generate detailed strategy given past context and a new query
  */
 export async function generateStrategy(context, query) {
-    const prompt = `You are an assistant. Here are past tasks:\n${context}\nGive a detailed strategy for: ${query}`;
+    const prompt = `You are a scheduling assistant trying to give a brief strategy for a task provided by the user, taking their past tasks/strategies/feedback into account. If a previous strategy ` +
+    `is not effective, you should prefer a new strategy. If the old strategy is effective, feel free to use it. If there is not a lot of context, consider strategies such as ` +
+    `"set a 30 minute timer and focus on the task, taking a 5 minute break between tasks" or "lock yourself in a coffee shop or other 3rd space and focus on the task." or ` +
+    `"give your friend your phone and don't get it back until you finish the work". Feel free to be creative with other techniques. Your advice should be no more than 3 sentences and can be less.
+    Here are past tasks:\n${context}\n
+    Give a detailed strategy for: "${query}"`;
     const res = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: prompt });
     return res.text.trim();
 }
@@ -55,7 +60,7 @@ function Gemini() {
             const snap = await get(tasksRef);
             const history = snap.exists() ? snap.val() : {};
             const past = Object.values(history).filter(t => t.feedback && t.endDate);
-            const context = past.map((t,i) => `Task ${i+1}: ${t.task} | Feedback: ${t.feedback}`).join("\n");
+            const context = past.map((t,i) => `Task ${i+1}: ${t.task} | Strategy: ${t.strategy} | Feedback: ${t.feedback}`).join("\n");
 
             // call Gemini helper
             const fullStrategy = await generateStrategy(context, input);
@@ -82,15 +87,16 @@ function Gemini() {
 
     return (
         <div className="gemini-container"> 
-            <h2>Gemini API Demo</h2>
-            <form onSubmit={handleSubmit} className="gemini-form">
+            <h2>Git Stuff Done!!!</h2>
+            <form onSubmit={handleSubmit} className="gemini-form" style={{width: "600px"}}>
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask Gemini something..."
+                    placeholder="Give me a task you want help with"
                     required
-                    aria-label="Ask Gemini something"
+                    aria-label="Give me a task you want help with"
+                    style={{width: "80%"}}
                 />
                 <button type="submit" disabled={loading || !input.trim()}>
                     {loading ? "Sending..." : "Send"}

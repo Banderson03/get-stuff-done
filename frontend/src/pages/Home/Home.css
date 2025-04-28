@@ -103,6 +103,7 @@ body {
     flex-direction: column;
     gap: 5px;
     margin-top: 15px; 
+    width: 100%; /* Make this box wider */
 }
 
 .gemini-output-container label {
