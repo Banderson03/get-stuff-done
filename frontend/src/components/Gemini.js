@@ -23,7 +23,7 @@ export async function generateStrategy(context, query) {
  * Summarize any text in one short phrase
  */
 export async function summarizeText(text, label) {
-    const prompt = `Summarize this ${label} in one phrase: ${text}`;
+    const prompt = `Summarize this ${label} in one phrase. Do not add any extra text or formatting like asterisks: ${text}`;
     const res = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: prompt });
     return res.text.trim();
 }
