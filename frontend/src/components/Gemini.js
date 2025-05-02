@@ -88,7 +88,7 @@ function Gemini() {
     return (
         <div className="gemini-container"> 
             <h2>Git Stuff Done!!!</h2>
-            <form onSubmit={handleSubmit} className="gemini-form" style={{width: "600px"}}>
+            <form onSubmit={handleSubmit} className="gemini-form" style={{ width: "700px", display: "flex", gap: "8px" }}>
                 <input
                     type="text"
                     value={input}
@@ -96,28 +96,30 @@ function Gemini() {
                     placeholder="Give me a task you want help with"
                     required
                     aria-label="Give me a task you want help with"
-                    style={{width: "80%"}}
+                    style={{ flex: 1, padding: "2px 8px", fontSize: "14px" }}
                 />
-                <button type="submit" disabled={loading || !input.trim()}>
+                <button
+                    className="gemini-button"
+                    type="submit"
+                    disabled={loading || !input.trim()}
+                >
                     {loading ? "Sending..." : "Send"}
                 </button>
             </form>
 
-            {loading && <p className="gemini-status">Loading...</p>}
+
             {error && <p className="gemini-error" style={{ color: "red" }}>Error: {error}</p>}
-            {(!loading && (response || !error)) && (
                  <div className="gemini-output-container">
                     <label htmlFor="geminiOutputDisplay">Gemini Response:</label>
                     <textarea
                         id="geminiOutputDisplay"
                         className="gemini-output-box"
-                        value={response}
+                        value={loading ? "Loading..." : response}
                         readOnly
                         placeholder="Gemini response will appear here..."
                         rows={10}
                     />
                 </div>
-            )}
         </div>
     );
 }
