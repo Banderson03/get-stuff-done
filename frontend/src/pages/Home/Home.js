@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { useGoogleCalendar } from '../../components/useGoogleCalendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment'
+import { format, parseISO } from 'date-fns';
 import GemeniComponent from "../../components/Gemini";
 import GoogleCalendarEmbed from "../../components/GoogleCalendarEmbed";
 import { auth } from "../../firebase";
@@ -11,7 +16,10 @@ import "./Home.css";
 
 function Home() {
     const navigate = useNavigate();
-    const [message, setMessage] = useState(""); // State to hold the message fetched from the backend
+    const { gapiReady, signedIn, signIn, signOut, fetchEvents } = useGoogleCalendar();
+    const [events, setEvents] = useState([]); // State to hold the calendar
+    const localizer = momentLocalizer(moment);
+
 
 
     // Sign out handler
@@ -19,6 +27,19 @@ function Home() {
         await signOut(auth);
         navigate("/");
     };
+
+    useEffect(() => {
+        if (gapiReady && signedIn) {
+          fetchEvents().then(data => {
+            const mapped = data.map(event => ({
+              title: event.summary,
+              start: new Date(event.start.dateTime || event.start.date),
+              end: new Date(event.end.dateTime || event.end.date),
+            }));
+            setEvents(mapped);
+          });
+        }
+      }, [gapiReady, signedIn]);
     
     return (
         <div className="page-layout">
@@ -33,10 +54,16 @@ function Home() {
                     <h1>Get Started With Get Stuff Done</h1>
                     <button onClick={handleSignOut} className="sign-out-button">Sign Out</button>
                 </div>
-                <GoogleCalendarEmbed
-                    calendarId="2959515c3df1dd2d8dfb6ef572e6d73ce4edcafed0e7a65a61ba5e1bc5a2fce9@group.calendar.google.com@group.calendar.google.com"
-                    timezone="America/Chicago"
-                />
+                <div>
+                    {!signedIn && <button onClick={signIn}>Sign in to Google Calendar</button>}
+                    {signedIn && <Calendar
+                        localizer={localizer}
+                        events={events}
+                        startAccessor="start"
+                        endAccessor="end"
+                        style={{ height: 600, margin: '50px' }}
+                    />}
+                </div>
                 <GemeniComponent />
             </div>
 

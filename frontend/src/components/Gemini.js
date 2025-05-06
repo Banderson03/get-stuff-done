@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GoogleGenAI } from "@google/genai";
+import { gapi } from "gapi-script"; 
+import { GoogleGenAI, Type } from "@google/genai";
 import { getDatabase, ref, get, push, set } from 'firebase/database';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
