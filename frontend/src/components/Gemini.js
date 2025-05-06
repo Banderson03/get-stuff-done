@@ -87,7 +87,7 @@ function Gemini() {
 
     return (
         <div className="gemini-container"> 
-            <h2>Git Stuff Done!!!</h2>
+            <h2>Create a Task</h2>
             <form onSubmit={handleSubmit} className="gemini-form" style={{ width: "700px", display: "flex", gap: "8px" }}>
                 <input
                     type="text"
