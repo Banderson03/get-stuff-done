@@ -30,7 +30,7 @@ function Home() {
             {/* Box 2: Main Content (Calendar, etc.) */}
             <div className="main-content-box">
                 <div className="main-content-header">
-                    <h1>Git Started With Git Stuff Done</h1>
+                    <h1>Get Started With Get Stuff Done</h1>
                     <button onClick={handleSignOut} className="sign-out-button">Sign Out</button>
                 </div>
                 <GoogleCalendarEmbed
