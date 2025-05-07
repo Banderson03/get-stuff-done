@@ -51,7 +51,7 @@ export async function generateStrategy(context, query, existingEvents) {
     const prompt = `Today is ${new Date().toLocaleDateString()}. You are a scheduling assistant trying to give a brief strategy for a task provided by the user, taking their past tasks/strategies/feedback into account. If a previous strategy ` +
     `is not effective, you should prefer a new strategy. If the old strategy is effective, feel free to use it. If there is not a lot of context, consider strategies such as ` +
     `"set a 30 minute timer and focus on the task, taking a 5 minute break between tasks" or "lock yourself in a coffee shop or other 3rd space and focus on the task." or ` +
-    `"give your friend your phone and don't get it back until you finish the work". Feel free to be creative with other techniques. Your advice should be no more than 3 sentences and can be less.
+    `"give your friend your phone and don't get it back until you finish the work". Feel free to be creative with other techniques. Your advice should be no more than 3 sentences and can be less. FOCUS ON THE HOW. FOCUS ON THE HOW.
     Here are past tasks:\n${context}\n
     Give a detailed strategy for: "${query}"
     
