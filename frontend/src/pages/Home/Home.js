@@ -123,7 +123,7 @@ function Home() {
                         startAccessor="start"
                         endAccessor="end"
                         views={["month", "week", "day"]}
-                        style={{ height: 600, margin: '50px' }}
+                        style={{ height: 600, margin: '50px', minWidth: '1000px', maxWidth: '1000px' }}
                         onNavigate={handleNavigate}
                         components={{
                             event: EventComponent,
