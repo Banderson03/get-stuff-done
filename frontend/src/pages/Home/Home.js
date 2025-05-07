@@ -80,6 +80,7 @@ function Home() {
             <Tooltip 
               id={tooltipId}
               place="top"
+              className="calendar-tooltip"
               render={() => (
                 <div>
                   <strong>{event.title}</strong>
@@ -93,6 +94,9 @@ function Home() {
                   )}
                 </div>
               )}
+              style={{ zIndex: 9999 }}
+              positionStrategy="fixed"
+              offset={10}
             />
           </>
         );
