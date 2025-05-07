@@ -68,7 +68,7 @@ export async function generateStrategy(context, query, existingEvents) {
  * Summarize any text in one short phrase
  */
 export async function summarizeText(text, label) {
-    const prompt = `Summarize this ${label} in one phrase. Do not add any extra text or formatting like asterisks: ${text}`;
+    const prompt = `Summarize this ${label} in one phrase. If it is a strategy, do not omit key details, such as duration, location. The one exception to this is time, which you do not need. Do not add any extra text or formatting like asterisks: ${text}`;
     const res = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: prompt });
     return res.text.trim();
 }
