@@ -115,7 +115,7 @@ const styles = {
   },
   scrollableArea: {
     marginTop: '10px',
-    maxHeight: '975px',
+    maxHeight: '1075px',
     overflowY: 'auto',
     padding: '8px',
     border: '1px solid #ddd',

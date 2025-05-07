@@ -49,6 +49,7 @@ export function useGoogleCalendar() {
           showDeleted: false,
           singleEvents: true,
           orderBy: "startTime",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           maxResults: 100
         });
         
