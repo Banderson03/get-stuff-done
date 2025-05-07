@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
 
@@ -14,6 +14,7 @@ export function useGoogleCalendar() {
         await window.gapi.client.init({
           clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           scope: SCOPES,
+          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         });
         setGapiReady(true);
         const auth = window.gapi.auth2.getAuthInstance();
@@ -27,16 +28,32 @@ export function useGoogleCalendar() {
   const signIn = () => window.gapi.auth2.getAuthInstance().signIn();
   const signOut = () => window.gapi.auth2.getAuthInstance().signOut();
 
-  const fetchEvents = async () => {
-    const res = await window.gapi.client.calendar.events.list({
-      calendarId: 'primary',
-      timeMin: new Date().toISOString(),
-      showDeleted: false,
-      singleEvents: true,
-      orderBy: 'startTime',
-    });
-    return res.result.items;
-  };
+  // Fetch events from all calendars
+  const fetchEvents = useCallback(async (startDate = new Date(), endDate = null) => {
+    try {
+      const calendarListRes = await window.gapi.client.calendar.calendarList.list();
+      const calendars = calendarListRes.result.items;
+  
+      const allEvents = [];
+      for (const calendar of calendars) {
+        const res = await window.gapi.client.calendar.events.list({
+          calendarId: calendar.id,
+          timeMin: startDate.toISOString(),
+          timeMax: endDate?.toISOString(),
+          showDeleted: false,
+          singleEvents: true,
+          orderBy: "startTime",
+        });
+        allEvents.push(...res.result.items);
+        console.log("Events fetched:", res.result.items);
+      }
+  
+      return allEvents;
+    } catch (err) {
+      console.error("Failed to fetch events:", err);
+      return [];
+    }
+  }, []);
 
   return { gapiReady, signedIn, signIn, signOut, fetchEvents };
 }
