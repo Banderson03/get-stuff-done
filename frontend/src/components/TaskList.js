@@ -47,8 +47,30 @@ function TaskList() {
           id: key,
           title: tasksData[key].task || 'Untitled Task',
           summary: tasksData[key].strategy || '',
+          startDate: tasksData[key].startDate || '',
+          endDate: tasksData[key].endDate || '',
+          feedback: tasksData[key].feedback || '',
         }));
-        setTasks(tasksList);
+        
+        // Sort tasks - completed tasks (with endDate) at the bottom, older tasks first
+        const sortedTasks = tasksList.sort((a, b) => {
+          // First check if either task is completed (has endDate)
+          const aCompleted = !!a.endDate;
+          const bCompleted = !!b.endDate;
+          
+          // If completion status differs, completed tasks go to the bottom
+          if (aCompleted !== bCompleted) {
+            return aCompleted ? 1 : -1;
+          }
+          
+          // If both are either completed or incomplete, sort by startDate (older first)
+          if (aCompleted && bCompleted) {
+            return new Date(b.startDate) - new Date(a.startDate);
+          }
+          return new Date(a.startDate) - new Date(b.startDate);
+        });
+        
+        setTasks(sortedTasks);
       } else {
         console.log('No tasks found.');
         setTasks([]);
