@@ -55,7 +55,6 @@ function Home() {
                 title: event.summary,
                 start: new Date(event.start.dateTime || event.start.date),
                 end: new Date(event.end.dateTime || event.end.date),
-                description: event.description || ""
             }));
             setEvents(mapped);
           });

@@ -3,21 +3,65 @@ import { gapi } from "gapi-script";
 import { GoogleGenAI, Type } from "@google/genai";
 import { getDatabase, ref, get, push, set } from 'firebase/database';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useGoogleCalendar } from './useGoogleCalendar';
+
 
 const ai = new GoogleGenAI({ apiKey: process.env.REACT_APP_GEMINI_API_KEY });
+const createEvent = {
+    name: "createEvent",
+    description: "Create a new Google Calendar event if there's no conflict",
+    parameters: {
+        type: "object",
+        properties: {
+        summary: { type: "string", description: "Event title" },
+        description: { type: "string", description: "Event details" },
+        start: {
+            type: "object",
+            properties: {
+            dateTime: { type: "string", description: "ISO start timestamp" },
+            timeZone: { type: "string", description: "IANA time zone" }
+            },
+            required: ["dateTime", "timeZone"]
+        },
+        end: {
+            type: "object",
+            properties: {
+            dateTime: { type: "string", description: "ISO end timestamp" },
+            timeZone: { type: "string", description: "IANA time zone" }
+            },
+            required: ["dateTime", "timeZone"]
+        }
+        },
+        required: ["summary", "start", "end"]
+    }
+    };
+
 
 /**
  * Generate detailed strategy given past context and a new query
  */
-export async function generateStrategy(context, query) {
-    const prompt = `You are a scheduling assistant trying to give a brief strategy for a task provided by the user, taking their past tasks/strategies/feedback into account. If a previous strategy ` +
+export async function generateStrategy(context, query, existingEvents) {
+
+    // Format existing events for context
+    const formattedEvents = existingEvents.map(event => {
+        const start = event.start.dateTime || event.start.date;
+        const end = event.end.dateTime || event.end.date;
+        return `- ${event.summary}: ${new Date(start).toLocaleString()} to ${new Date(end).toLocaleString()}`;
+    }).join('\n');
+    const prompt = `Today is ${new Date().toLocaleDateString()}. You are a scheduling assistant trying to give a brief strategy for a task provided by the user, taking their past tasks/strategies/feedback into account. If a previous strategy ` +
     `is not effective, you should prefer a new strategy. If the old strategy is effective, feel free to use it. If there is not a lot of context, consider strategies such as ` +
     `"set a 30 minute timer and focus on the task, taking a 5 minute break between tasks" or "lock yourself in a coffee shop or other 3rd space and focus on the task." or ` +
     `"give your friend your phone and don't get it back until you finish the work". Feel free to be creative with other techniques. Your advice should be no more than 3 sentences and can be less.
     Here are past tasks:\n${context}\n
-    Give a detailed strategy for: "${query}"`;
-    const res = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: prompt });
-    return res.text.trim();
+    Give a detailed strategy for: "${query}"
+    
+    Additionally, I want you to use createEvent to schedule the event during a time in which the user is free. Here are the events:\n${formattedEvents}`;
+    const res = await ai.models.generateContent({ model: 'gemini-2.0-flash', contents: prompt, config: {
+        tools: [{
+          functionDeclarations: [createEvent]
+        }],
+      } });
+    return res;
 }
 
 /**
@@ -35,6 +79,8 @@ function Gemini() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [user, setUser] = useState(null);
+    const { fetchEvents, createEvent } = useGoogleCalendar();
+    
 
     useEffect(() => {
         const auth = getAuth();
@@ -63,10 +109,19 @@ function Gemini() {
             const past = Object.values(history).filter(t => t.feedback && t.endDate);
             const context = past.map((t,i) => `Task ${i+1}: ${t.task} | Strategy: ${t.strategy} | Feedback: ${t.feedback}`).join("\n");
 
+            // Get existing events for the next 7 days
+            const now = new Date();
+            const sevenDaysLater = new Date(now);
+            sevenDaysLater.setDate(now.getDate() + 7);
+            const existingEvents = await fetchEvents(now, sevenDaysLater);
+
             // call Gemini helper
-            const fullStrategy = await generateStrategy(context, input);
-            const summedTask    = await summarizeText(input, 'task');
-            const summedStrat   = await summarizeText(fullStrategy, 'strategy');
+            const fullStrategy = await generateStrategy(context, input, existingEvents);
+            const summedTask = await summarizeText(input, 'task');
+            const summedStrat = await summarizeText(fullStrategy.text.trim(), 'strategy');
+            if (fullStrategy.functionCalls && fullStrategy.functionCalls.length > 0) {
+                createEvent(fullStrategy.functionCalls[0].args);
+            }
 
             // push new task record
             const newRef = push(tasksRef);
@@ -78,7 +133,7 @@ function Gemini() {
                 endDate: ''
             });
 
-            setResponse(fullStrategy);
+            setResponse(fullStrategy.text.trim());
         } catch (err) {
             setError(err.message); 
         } finally {
