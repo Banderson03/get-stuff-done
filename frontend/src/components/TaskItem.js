@@ -55,7 +55,7 @@ function TaskItem({ task, onSummaryChange }) {
       <h3 style={styles.title}>{task.title}</h3>
       <h4>Suggested Strategy: {task.summary}</h4>
       <textarea
-        style={styles.feedbackInput}
+        style={styles.summaryInput}
         value={feedback}
         onChange={handleFeedbackChange}
         placeholder="Enter feedback..."
@@ -64,6 +64,7 @@ function TaskItem({ task, onSummaryChange }) {
       <br></br>
 
       <button
+        className="submit-button"
         style={styles.submitButton}
         onClick={handleSubmitFeedback}
         disabled={submitting}
@@ -93,10 +94,11 @@ const styles = {
     width: '100%', 
     boxSizing: 'border-box', 
     padding: '8px',
+    marginTop: '8px',
     border: '1px solid #ddd',
     borderRadius: '4px',
     fontSize: '1em',
-    resize: 'vertical',
+    resize: 'none',
   },
 };
 

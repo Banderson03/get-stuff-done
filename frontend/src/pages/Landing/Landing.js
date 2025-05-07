@@ -9,6 +9,9 @@ function Landing() {
     <div className="landing">
       <div className="landing-container">
         <h1>Welcome to Get Stuff Done</h1>
+        <h2>
+          Your personal productivity assistant
+        </h2>
         <div className="landing__actions">
           <button className="btn" onClick={() => navigate("/signin")}>
             Sign In
