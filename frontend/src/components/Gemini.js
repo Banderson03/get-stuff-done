@@ -168,6 +168,15 @@ function Gemini() {
                  <div className="gemini-output-container">
                     <label htmlFor="geminiOutputDisplay">Gemini Response:</label>
                     <textarea
+                        style={{
+                            fontSize: "18px",
+                            padding: "12px",
+                            borderRadius: "8px",
+                            border: "1px solid #ccc",
+                            width: "100%",
+                            minHeight: "200px",
+                            resize: "vertical"
+                        }}
                         id="geminiOutputDisplay"
                         className="gemini-output-box"
                         value={loading ? "Loading..." : response}
